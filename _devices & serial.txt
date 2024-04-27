@@ -1,0 +1,89 @@
+Devices & Serial (iRiver)
+
+a fairly technical document...
+================================================================================
+I know, Serial is Old-School but I still have a lot of Old Stuff
+and Linux is perfect for Old-School... if you can get it configured right
+
+none of the Old Stuff will work with the NEW Windows
+WinXP is the last that supported Old Stuff
+
+Old Stuff Still In Use:
+Garmin GPS: eMap, eTrex -- serial
+Calculators: HP48G, HP48GX, HP48SX (died) -- serial
+MP3: iRiver -- using Linux 'ifp
+
+which is why this adventure happened
+--------------------------------------------------------------------------------
+iRiver From The Linux Command Line
+
+install from the repository 'ifp'
+should install the associated libraries...?
+
+but 'ifp' never worked...
+
+you can 'sudo ifp' and get things working but that is an annoyance
+I figured there was a better way...
+this adventure also solved other issues...
+--------------------------------------------------------------------------------
+I could never find out why Device or Serial Communication was not working
+for some reason Linux Communication is not fully read/write
+
+took me years to figure all this out
+the BIG issue was device read/write permissions
+
+in the mean time I was using a virtual WinXP and the iRiver Manager
+now it can be done from the Linux Command Line
+
+with this & serial issues a LOT was learned about Linux & Devices
+--------------------------------------------------------------------------------
+create -- /etc/udev/rules.d/50-udev.rules
+root privilege necessary
+
+use 'lsusb' to find information
+Bus 001 Device 016: ID 4102:1007 iRiver, Ltd. iFP-700 series mp3/ogg vorbis player
+4102:1007 is vendor:product
+
+50-udev.rules:
+KERNEL=="ttyUSB[0-9]*", MODE="0666"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6010", MODE="0666"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="2478", ATTRS{idProduct}=="2008", MODE="0666"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="4102", ATTRS{idProduct}=="1007", MODE="0666"
+
+the other stuff in this example is for serial adapters & ttyUSB
+there was issue with serial communication read/write
+
+with everything set to read/write things should work
+
+but with something like DOSBox serial is a one-off
+use once then DOSBox needs restarting... no one has a clue about this...?
+
+serial read/write also affected virtual WinXP, now it all works
+
+FYI: where the iRiver device is
+/dev/bus/usb/001/016
+
+use: lsusb-s.sh to list your devices
+you will have to code your devices in the list
+uses title-80.sh or code it out using echo or printf
+--------------------------------------------------------------------------------
+iRiver Utility Scripts
+
+where things are located & what they are for:
+~/.local/bin/ifp-ana.sh    analyze the backup list
+~/.local/bin/ifp-bkp.sh    restore backup list to iRiver
+~/.local/bin/ifp-fnd.sh    find backup list file on local drive
+~/.local/bin/ifp.awk       used by ifp.sh
+~/.local/bin/ifp.sh        the main program
+~/.local/bin/lsusb-s.sh    list selected usb devices
+      ~/data/ifp-bkp.dat   backup list
+      ~/data/ifp-fnd.dat   found files list
+      ~/data/ifp.dat       files on the iRiver
+
+you can use ~/bin instead of ~/.local/bin
+wherever you keep scripts
+--------------------------------------------------------------------------------
+now after all this...
+YOU ARE A REAL SYSTEM ADMINISTRATOR!!!
+but there's more to learn about Linux...
+--------------------------------------------------------------------------------
