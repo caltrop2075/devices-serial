@@ -1,5 +1,15 @@
 # devices-serial
-serial com port stuff &amp; iRiver MP3 Player
+
+serial & devices
+
+iRiver MP3 Player
+
+configure using command line
+there are no more Linux GUI's
+
+this lead a system configuration adventure
+/etc/udev/rules.d/50-udev.rules
+
 
 ifp-ana.sh
 --------------------------------------------------------------------------------
@@ -69,4 +79,3 @@ list select usb
 
 2023-09-22 tweaked display
 2023-10-17 tweaked display, getfacl for that mysterious permission '+'
-
